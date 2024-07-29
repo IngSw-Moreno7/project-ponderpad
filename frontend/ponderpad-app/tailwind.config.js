@@ -5,7 +5,7 @@ export default {
     extend: {
       // Colores utilizados en el proyecto
       colors: {
-        primary: '#2BB5FF',
+        primary: '#4FA7BA',
         secondary: '#EF863E',
       }
     },

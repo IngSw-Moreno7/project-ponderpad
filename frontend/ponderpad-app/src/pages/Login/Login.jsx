@@ -12,7 +12,8 @@ const Login = () => {
           <form onSubmit={() => {}}>
             <h4 className="text-2xl mb-7">Inicio de Sesión</h4>
 
-            <input type="text" placeholder="Correo" className="input-box" />
+            <input type="text" placeholder="Correo Electrónico" className="input-box" />
+
 
             <button type="submit" className="btn-primary">
               Iniciar sesión
