@@ -302,64 +302,82 @@ app.get("/get-all-notes", authenticateToken, async (req, res) => {
   }
 });
 
-/// Eliminar las notas 
+// Eliminar las notas 
 app.delete("/delete-note/:noteId", authenticateToken, async (req, res) => {
-
+  
+  // Obtiene el ID de la nota desde los parámetros de la solicitud
   const noteId = req.params.noteId;
+  
+  // Obtiene el usuario autenticado desde el objeto de solicitud
   const { user } = req.user;
 
   try {
-
+    // Busca la nota en la base de datos que coincida con el ID de la nota y el ID del usuario
     const note = await Note.findOne({ _id: noteId, userId: user._id });
     
+    // Si la nota no se encuentra, responde con un estado 404 y un mensaje de error
     if (!note) {
       return res.status(404).json({ error: true, message: "Nota no encontrada" });
     }
 
+    // Elimina la nota de la base de datos
     await Note.deleteOne({ _id: noteId, userId: user._id });
     
+    // Responde con un mensaje de éxito si la nota se eliminó correctamente
     return res.json({
       error: false,
       message: "Nota eliminada exitosamente",
     })
 
   } catch (error) {
+    // Responde con un estado 500 y un mensaje de error si ocurre un problema del servidor
     return res.status(500).json({
       error: true,
       message: "Error interno del servidor.",
     })
-    
   }
 });
 
-/// Actualizar  ispinned
+// Actualizar  ispinned
 app.put("/update-note-pinned/:noteId", authenticateToken, async (req, res) => {
 
+  // Obtención del ID de la nota desde los parámetros de la URL
   const noteId = req.params.noteId;
+  
+  // Obtención del nuevo estado "isPinned" desde el cuerpo de la solicitud
   const { isPinned } = req.body;
+  
+  // Obtención del usuario autenticado desde el token
   const { user } = req.user;
 
   try {
+    // Buscar la nota por ID y por el ID del usuario autenticado
     const note = await Note.findOne({ _id: noteId, userId: user._id });
+    
+    // Si no se encuentra la nota, responder con un error 404
     if (!note) {
       return res
         .status(404)
         .json({ error: true, message: 'Nota no encontrada' });
     }
     
+    // Si el nuevo estado "isPinned" es verdadero, actualizar el estado de la nota
     if (isPinned) note.isPinned = isPinned;
 
+    // Guardar los cambios en la base de datos
     await note.save();
 
+    // Responder con la nota actualizada y un mensaje de éxito
     return res.json({
       error: false,
       note,
       message: 'Nota actualizada',
     });
   } catch (error) {
+    // Manejar errores internos del servidor y responder con un error 500
     return res.status(500).json({
       error: true,
-      message: 'Error interno del servidor.Error interno del servidor.',
+      message: 'Error interno del servidor.',
     });
   }
 });
