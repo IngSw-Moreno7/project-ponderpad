@@ -1,14 +1,15 @@
-import React from 'react'
+import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
-import NoteCard from '../../components/Cards/NoteCard'
+import NoteCard from '../../components/Cards/NoteCard';
 import { MdAdd } from 'react-icons/md';
+import AddEditNote from './AddEditNotes';
 
 const Home = () => {
   return (
     <>
       <Navbar></Navbar>
 
-      <div className='container mx-auto'>
+      <div className="container mx-auto">
         <div className="grid grid-cols-3 gap-4 mt-8">
           <NoteCard
             title="AHHH"
@@ -16,18 +17,23 @@ const Home = () => {
             content="aksjfl kjafkljasf lkjaf"
             tags="#metting"
             isPinned={true}
-            onEdit={() => { }}
-            onDelete={() => { }}
-            onPinNote={() => { }}
+            onEdit={() => {}}
+            onDelete={() => {}}
+            onPinNote={() => {}}
           ></NoteCard>
         </div>
       </div>
 
-      <button className='w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10' onClick={() => { }}>
-        <MdAdd className='text-[32px] text-white'></MdAdd>
+      <button
+        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10"
+        onClick={() => {}}
+      >
+        <MdAdd className="text-[32px] text-white"></MdAdd>
       </button>
-    </>
-  )
-}
 
-export default Home
+      <AddEditNote />
+    </>
+  );
+};
+
+export default Home;
