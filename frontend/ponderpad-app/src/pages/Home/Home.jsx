@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import NoteCard from '../../components/Cards/NoteCard';
 import { MdAdd } from 'react-icons/md';
-import AddEditNote from './AddEditNotes';
+import AddEditNotes from './AddEditNotes';
 
 const Home = () => {
   return (
@@ -31,7 +31,7 @@ const Home = () => {
         <MdAdd className="text-[32px] text-white"></MdAdd>
       </button>
 
-      <AddEditNote />
+      <AddEditNotes />
     </>
   );
 };
