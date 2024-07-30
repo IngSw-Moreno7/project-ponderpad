@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import PasswordInput from '../../components/Input/PasswordInput';
 import Navbar from '../../components/Navbar/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,6 +12,18 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const getUserInfo = async () => {
+    try {
+      if (localStorage.token) {
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        localStorage.clear();
+      }
+    }
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -53,6 +65,12 @@ const SignUp = () => {
     }
     setError("")
   }
+
+  useEffect(() => {
+    getUserInfo();
+    return () => { };
+  }, []);
+
   return (
     <>
       <Navbar />

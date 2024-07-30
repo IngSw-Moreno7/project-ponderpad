@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
 import PasswordInput from '../../components/Input/PasswordInput';
@@ -11,6 +11,18 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const getUserInfo = async () => {
+    try {
+      if (localStorage.token) {
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        localStorage.clear();
+      }
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -38,6 +50,11 @@ const Login = () => {
     }
     setError("")
   }
+
+  useEffect(() => {
+    getUserInfo();
+    return () => { };
+  }, []);
 
   return (
     <>

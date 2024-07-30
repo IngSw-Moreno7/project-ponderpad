@@ -21,6 +21,10 @@ const Home = () => {
 
   const navigate = useNavigate();
 
+  const handleEdit = (nodeDetails) => {
+    setOpenAddEditModal({ isShown: true, data: nodeDetails, type: "edit" })
+  }
+
   const getUserInfo = async () => {
     try {
       const response = await axiosInstance.get("/get-user");
@@ -37,11 +41,27 @@ const Home = () => {
 
   const getAllNotes = async () => {
     try {
-      const response = await axiosInstance.get("get-all-notes");
+      const response = await axiosInstance.get("/get-all-notes");
       if (response.data && response.data.notes) {
         setAllNotes(response.data.notes);
       }
     } catch (error) {
+      console.error("error");
+    }
+  }
+
+  const deleteNote = async (data) => {
+    const noteId = data._id
+    try {
+      const response = await axiosInstance.delete("/delete-note/" + noteId);
+      if (response.data && !response.data.error) {
+        getAllNotes();
+      }
+    } catch (error) {
+      console.log(error)
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      }
       console.error("error");
     }
   }
@@ -66,8 +86,8 @@ const Home = () => {
               content={item.content}
               tags={item.tags}
               isPinned={item.isPinned}
-              onEdit={() => { }}
-              onDelete={() => { }}
+              onEdit={() => handleEdit(item)}
+              onDelete={() => deleteNote(item)}
               onPinNote={() => { }}
             ></NoteCard>
           ))}
@@ -76,25 +96,34 @@ const Home = () => {
 
       <button
         className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10"
-        onClick={() => { 
-          setOpenAddEditModal({ isShow: true, Type: "add", data: null});
+        onClick={() => {
+          setOpenAddEditModal({ isShown: true, type: "add", data: null })
         }}
       >
         <MdAdd className="text-[32px] text-white"></MdAdd>
       </button>
 
       <Modal
+        ariaHideApp={false}
         isOpen={openAddEditModal.isShown}
         onRequestClose={() => { }}
         style={{
           overlay: {
-            backgroundColor: 'rgba(0,0,0,0,2)',
+            backgroundColor: 'rgba(0,0,0,0.2)',
           },
         }}
         contentLabel=""
-        className=""
+        className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-scroll"
       >
-        <AddEditNotes />
+        <AddEditNotes
+          type={openAddEditModal.type}
+          noteData={openAddEditModal.data}
+          onClose={
+            () => {
+              setOpenAddEditModal({ isShown: false, type: "add", data: null });
+            }}
+          getAllNotes={getAllNotes}
+        />
       </Modal>
     </>
   );
