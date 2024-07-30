@@ -4,7 +4,7 @@ import { IoMdClose } from 'react-icons/io';
 
 const SearchBar = ({ value, onChange, handleSearch, onClearSearch }) => {
   return (
-    <div>
+    <div className='w-80 flex items-center px-4 bg-slate-100 rounded-md'>
       <input
         type="text"
         placeholder="Buscar Notas"
@@ -13,7 +13,9 @@ const SearchBar = ({ value, onChange, handleSearch, onClearSearch }) => {
         onChange={onChange}
       />
 
-        <IoMdClose className='text-xl text-slate-500' onClick={onClearSearch} />
+        {value && (<IoMdClose className='text-xl text-slate-500' onClick={onClearSearch} 
+        />
+        )}
         <FaMagnifyingGlass className=" text-slate-400 hover:text-black" onClick={handleSearch} />
 
     </div>
