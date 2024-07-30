@@ -19,7 +19,7 @@ const AddEditNotes = () => {
         />
       </div>
       
-      <div className="flex flex-col gap-2 mt-4">
+      <div className="mt-3">
         <label className="input-label">TAGS</label>
         <input
           type="text"
