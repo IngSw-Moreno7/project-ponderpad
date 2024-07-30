@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-import { FaRegEye, FaRegEyeFlash } from 'react-icons/fa';
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 
 const PasswordInput = ({ value, onChange, placeholder }) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -19,15 +18,18 @@ const PasswordInput = ({ value, onChange, placeholder }) => {
         className="w-full text-sm bg-transparent py-3 mr-3 rounded outline-none"
       />
 
-      <FaRegEye
-        size={22}
-        className="text-primary cursor-pointer"
-        onClick={() => toggleShowPassword()}
-      /> : <FaRegEyeFlash
-        size={22}
-        className="text-slate-400 cursor-pointer"
-        onClick={() => toggleShowPassword()}
-      /> : 
+      {isShowPassword ? (
+        <FaRegEye
+          size={22}
+          className="text-primary cursor-pointer"
+          onClick={() => toggleShowPassword()}
+        />) : (<FaRegEyeSlash
+          size={22}
+          className="text-slate-400 cursor-pointer"
+          onClick={() => toggleShowPassword()}
+        />
+      )}
+
     </div>
   );
 };
